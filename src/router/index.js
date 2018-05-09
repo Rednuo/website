@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/Index'
-import Help from '@/components/Help'
-import About from '@/components/About'
+import Retrospect from '@/components/Retrospect'
+import Album from '@/components/Album'
+import Technology from '@/components/Technology'
+import childhood from '@/components/article/retrospect/childhood'
+import hometown from '@/components/article/album/hometown'
 
 
 Vue.use(Router);
@@ -15,14 +18,29 @@ export default new Router({
       component: Index
     },
     {//需跳转的页面
-      path:'/help',
-      name:'help',
-      component:Help
+      path:'/Retrospect',
+      name:'retrospect',
+      component:Retrospect
     },
     {//需跳转的页面
-      path:'/about',
-      name:'about',
-      component:About
+      path:'/Album',
+      name:'album',
+      component:Album
+    },
+    {//需跳转的页面
+      path:'/Technology',
+      name:'technology',
+      component:Technology
+    },
+    {//需跳转的页面
+      path:'/article/retrospect/childhood',
+      name:'childhood',
+      component:childhood
+    },
+    {//需跳转的页面
+      path:'/article/album/hometown',
+      name:'hometown',
+      component:hometown
     }
   ]
 })

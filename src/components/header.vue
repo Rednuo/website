@@ -2,7 +2,7 @@
   <div class="header">
     <div class="content">
       <ul class="nav">
-        <li v-for="nav in navs"><router-link to="/about">{{nav.li}}</router-link></li>
+        <li v-for="nav in navs"><router-link :to="nav.path">{{nav.li}}</router-link></li>
       </ul>
       <div class="msg">{{msg}}</div>
     </div>
@@ -15,10 +15,10 @@
     data () {
       return {
         navs: [
-          {li:'网站首页',link:'/home'},
-          {li:'往昔追忆',link:'/log'},
-          {li:'浮光掠影',link:'/say'},
-          {li:'学习广角',link:'/phone'}
+          {li:'网站首页',path:'/'},
+          {li:'往昔追忆',path:'/Retrospect'},
+          {li:'浮光掠影',path:'/Album'},
+          {li:'学习广角',path:'/Technology'}
         ],
         msg: '欢迎访问red个人主页'
       }
@@ -70,9 +70,8 @@
           }
         }
         li.active,li:hover{
-          background-color: #000;
+          background-color: @btnColor;
           a{
-            color: #fff;
             font-weight: bold;
           }
         }
