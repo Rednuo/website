@@ -3,18 +3,19 @@
     <p class="motto">除了自己的无知，我什么都不懂。</p>
     <p class="author">- 苏格拉底</p>
     <div class="time">
-      <p>星期二</p>
-      <p class="date">8</p>
-      <p>二〇一八年五月</p>
+      <p>{{new Date()|moment("dddd")}}</p>
+      <p class="date">{{new Date()|moment("Do")}}</p>
+      <!--二〇一八年五月-->
+      <p>{{new Date()|moment("YYYY MMMM")}}</p>
     </div>
     <div class="info">
       <span>信息</span>
       <br>
-      <a href="">已发表作品列表</a>
+      <router-link to="/article/technology/web">已发表作品列表</router-link>
       <br>
-      <a href="">站长简介</a>
-      <a href="">常见问题</a>
-      <a href="">版权说明</a>
+      <router-link to="/article/introduction/personalDate">站长简介</router-link>
+      <router-link to="/article/introduction/faqs">常见问题</router-link>
+      <router-link to="/article/introduction/copyright">版权说明</router-link>
       <a href="">联系方式</a>
     </div>
     <div class="statistics">
@@ -32,9 +33,17 @@
   export default {
     name: 'sideDiv',
     data () {
-      return {
-        msg: 'Welcome to Your Vue.js App'
-      }
+      return {}
+    },
+    methods:{
+      getDate(){
+        const myDate=new Date();
+        const weekDay=myDate.getDay();
+        const toDay=myDate.getDate();
+        const year=myDate.setFullYear();
+        const month=myDate.getMonth();
+        console.log(weekDay,toDay,year,month);
+      },
     }
   }
 </script>

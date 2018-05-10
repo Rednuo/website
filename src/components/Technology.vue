@@ -8,7 +8,7 @@
     </article>
     <div class="title">文章</div>
     <ul class="inner">
-      <li><a href="">童年回忆集锦 收录了有关童年的一些回忆片断</a></li>
+      <li><router-link to="/article/technology/web">童年回忆集锦 收录了有关童年的一些回忆片断</router-link></li>
     </ul>
     <div class="title">编程</div>
     <ul class="inner">

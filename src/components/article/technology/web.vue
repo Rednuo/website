@@ -4,16 +4,13 @@
       <h2>web</h2>
       <h3>- red -</h3>
       <!--双边框div 文章来源说明-->
-      <p class="center">浩瀚夜空，遥远的角落 <br>
-      人来人往，有些爱永不更改<br>
-      在你我忘了珍惜的时候<br>
-      最美好的已远走</p>
+      <div class="center">浩瀚夜空，遥远的角落人来人往，有些爱永不更改在你我忘了珍惜的时候最美好的已远走</div>
+      <br>
       <p>读别人的故事， 常常惊讶于作者对久远细节的描述， 真希望自己也能有这样清晰的记忆。 这或许也不算是什么奢望，<img align="right" hspace="5" vspace="5" src="../../../assets/logo.png" alt=""> 许多悠远的往事其实都忠实地记录在大脑中， 可是尘积已久的记忆就像压在大石头下面的藏宝箱， 知道它在那里， 却怎么也拿不到。 常常在做梦时恍恍忽忽地想起了什么， 醒来后想翻开石头看个究竟， 可是时间老人压上去的石头， 又有谁能翻得开？</p>
       <p class="divide">*********</p>
       <p>读别人的故事， 常常惊讶于作者对久远细节的描述， 真希望自己也能有这样清晰的记忆。 这或许也不算是什么奢望， 许多悠远的往事其实都忠实地记录在大脑中， 可是尘积已久的记忆就像压在大石头下面的藏宝箱， 知道它在那里， 却怎么也拿不到。 常常在做梦时恍恍忽忽地想起了什么， 醒来后想翻开石头看个究竟， 可是时间老人压上去的石头， 又有谁能翻得开？</p>
 
       <p>读别人的故事， 常常惊讶于作者对久远细节的描述， 真希望自己也能有这样清晰的记忆。 这或许也不算是什么奢望， 许多悠远的往事其实都忠实地记录在大脑中， 可是尘积已久的记忆就像压在大石头下面的藏宝箱， 知道它在那里， 却怎么也拿不到。 常常在做梦时恍恍忽忽地想起了什么， 醒来后想翻开石头看个究竟， 可是时间老人压上去的石头， 又有谁能翻得开？</p>
-      <span>“梦开始的地方” (by 童安格 苏来)</span>
     </article>
     <div class="title">往年同日（8月1日）发表作品</div>
     <ul class="inner">
@@ -33,7 +30,7 @@
 </template>
 <script>
   export default {
-    name: 'childhood',
+    name: 'web',
     data () {
       return {
         msg: 'Welcome to Your Vue.js App'
@@ -81,8 +78,11 @@
       }
       p{line-height: 24px;text-indent: 2em;margin: 15px 0}
       .center{
-        font-family: KaiTi, KaiTi_GB2312, FangSong, FangSong_GB2312;
-        text-align: center;
+        width: 70%;
+        margin: 0 auto;
+        padding: 5px 15px;
+        font-size: 12px;
+        border:3px double @borderColor;
       }
       .divide{
         text-align: center;

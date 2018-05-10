@@ -28,9 +28,9 @@
       footerDiv
     },
     methods:{
-      getUser(msg){
-        this.user=msg
-      }
+//      getUser(msg){
+//        this.user=msg
+//      }
     }
   }
 </script>
