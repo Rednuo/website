@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 // import moment from "moment"
 import moment from "moment"
+import VueResource from 'vue-resource'
+
+Vue.use(VueResource);
 
 Vue.config.productionTip = false;
 Vue.filter('moment',function (value, formatString) {

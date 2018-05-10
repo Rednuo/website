@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <!--<loginDiv @transferUser="getUser"></loginDiv>-->
+    <input type="text" id="inputEmail" placeholder="请输入账号" v-model="account">
+    <input type="password" id="inputPassword" placeholder="请输入密码" v-model="password">
+    <button type="submit" class="btn" @click="login">登录</button>
     <HeaderDiv :logo="logoMsg"></HeaderDiv>
     <section class="main">
       <sideDiv></sideDiv>
@@ -19,7 +22,9 @@
     data(){
       return{
         logoMsg:'Red',
-        user:''
+        user:'',
+        account: '',
+        password:''
       }
     },
     components:{
@@ -28,9 +33,24 @@
       footerDiv
     },
     methods:{
-//      getUser(msg){
-//        this.user=msg
-//      }
+      login(){
+        const self=this;
+        self.$http.get('/api/login/getAccount')
+          .then((response)=>{
+            console.log(response);
+            let params={
+              account:this.account,
+              password:this.password
+            };
+            return this.$http.post('/api/login/createAccount',params)
+          })
+          .then((response)=>{
+            console.log(response)
+          })
+          .catch((reject)=>{
+            console.log(reject)
+          })
+      }
     }
   }
 </script>
@@ -63,7 +83,6 @@
     &:after{
       clear: both;
     }
-
   }
 }
 </style>

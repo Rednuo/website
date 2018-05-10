@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/Index'
+import login from '@/view/login'
 import Retrospect from '@/components/Retrospect'
 import Album from '@/components/Album'
 import Technology from '@/components/Technology'
@@ -20,6 +21,11 @@ export default new Router({
       path: '/',
       name: 'index',
       component: Index
+    },
+    {//首页
+      path: '/login',
+      name: 'login',
+      component: login
     },
     {//需跳转的页面
       path:'/Retrospect',
