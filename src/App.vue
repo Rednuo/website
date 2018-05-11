@@ -1,9 +1,24 @@
 <template>
   <div id="app">
     <!--<loginDiv @transferUser="getUser"></loginDiv>-->
-    <input type="text" id="inputEmail" placeholder="请输入账号" v-model="account">
-    <input type="password" id="inputPassword" placeholder="请输入密码" v-model="password">
-    <button type="submit" class="btn" @click="login">登录</button>
+    <div class="login-wrap" v-show="showLogin">
+      <h3>登录</h3>
+      <p v-show="showTip">{{tip}}</p>
+      <input type="text" placeholder="请输入账号" v-model="account">
+      <input type="password" placeholder="请输入密码" v-model="password">
+      <button type="submit" class="btn" @click="login">登录</button>
+      <span v-on:click="ToResister">没有账号？马上注册</span>
+    </div>
+    <div class="register-wrap" v-show="showResister">
+      <h3>注册</h3>
+      <p v-show="showTip">{{tip}}</p>
+      <input type="text" placeholder="请输入账号" v-model="newAccount">
+      <input type="password" placeholder="请输入密码" v-model="newPassword">
+      <button type="submit" class="btn" @click="register">注册</button>
+      <span v-on:click="ToLogin">已有账号？马上登录</span>
+    </div>
+    <div class="logined" v-show="!showLogin"> {{account}}，欢迎你 <a href="" @click="quit">退出</a></div>
+    <div class="unlogin" v-show="showLogin"> <span>登录</span> <span>注册</span></div>
     <HeaderDiv :logo="logoMsg"></HeaderDiv>
     <section class="main">
       <sideDiv></sideDiv>
@@ -17,14 +32,32 @@
   import HeaderDiv from '@/components/header'
   import sideDiv from '@/components/side'
   import footerDiv from '@/components/footer'
+  import {setCookie,getCookie,delCookie} from './assets/js/cookie'
   export default {
+    mounted(){
+//      let uname=getCookie('account');
+//      this.name=uname;
+      /*如果cookie不存在，则跳转到登录页*/
+//      if(uname==""){
+//        this.showLogin=true;
+//      }
+      if(getCookie('account')){
+        this.showLogin=false;
+      }
+    },
     name: 'App',
     data(){
       return{
         logoMsg:'Red',
         user:'',
         account: '',
-        password:''
+        newAccount:'',
+        password:'',
+        newPassword:'',
+        showTip:false,
+        showLogin:true,
+        showResister:false,
+        tip:''
       }
     },
     components:{
@@ -34,22 +67,75 @@
     },
     methods:{
       login(){
-        const self=this;
-        self.$http.get('/api/login/getAccount')
-          .then((response)=>{
-            console.log(response);
-            let params={
-              account:this.account,
-              password:this.password
-            };
-            return this.$http.post('/api/login/createAccount',params)
-          })
-          .then((response)=>{
-            console.log(response)
-          })
-          .catch((reject)=>{
-            console.log(reject)
-          })
+        if(this.account==''||this.password==''){
+          alert("请输入用户名或密码")
+        }else{
+          let params={
+            account:this.account,
+            password:this.password
+          };
+          this.$http.get('/api/login/getAccount',params)
+            .then((res)=>{
+//              console.log(params);
+//              console.log(res.data);
+              const dataAll=res.data;
+              for(let i=dataAll.length-1;i>=0;i--){
+                if(this.account!=dataAll[i].account && this.password==dataAll[i].password){
+                  this.tip="该用户不存在";
+                  this.showTip=true;
+                }else if(this.account==dataAll[i].account && this.password!=dataAll[i].password){
+                  this.tip="密码输入错误";
+                  this.showTip=true;
+                }else if(this.account==dataAll[i].account=='admin'){
+                  this.$router.push('./view/main')
+                }else if(this.account==dataAll[i].account && this.password==dataAll[i].password){
+                  this.tip="登录成功";
+                  this.showTip=true;
+                  setCookie('account',this.account,1000*60);
+                  setTimeout(function () {
+                    this.showLogin=false;
+                  }.bind(this),1000)
+                }
+              }
+//              if(res.data==-1){
+//                this.tip="该用户不存在";
+//                this.showTip=true;
+//              }else if(res.data==0){
+//                this.tip="密码输入错误";
+//                this.showTip=true;
+//              }else if(res.data=='admin'){
+//                this.$router.push('./view/main')
+//              }else{
+//                this.tip="登录成功";
+//                this.showTip=true;
+//                setCookie('account',this.account,1000*60);
+//                setTimeout(function () {
+//                  this.showLogin=false;
+//                }.bind(this),1000)
+//              }
+            })
+            .catch((reject)=>{
+              console.log(reject)
+            });
+        }
+      },
+      quit(){
+        delCookie('account')
+      },
+      register(){
+        let params={
+          account:this.newAccount,
+          password:this.newPassword
+        };
+        return this.$http.post('/api/login/createAccount',params);
+      },
+      ToResister(){
+        this.showLogin=false;
+        this.showResister=true;
+      },
+      ToLogin(){
+        this.showLogin=true;
+        this.showResister=false;
       }
     }
   }
