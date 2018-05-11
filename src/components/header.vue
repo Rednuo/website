@@ -18,7 +18,8 @@
           {li:'网站首页',path:'/'},
           {li:'往昔追忆',path:'/Retrospect'},
           {li:'浮光掠影',path:'/Album'},
-          {li:'学习广角',path:'/Technology'}
+          {li:'学习广角',path:'/Technology'},
+          {li:'我的文章',path:'/Technology'}
         ],
         msg: '欢迎访问red个人主页'
       }

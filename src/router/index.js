@@ -11,6 +11,7 @@ import web from '@/components/article/technology/web'
 import personalDate from '@/components/article/introduction/personalDate'
 import faqs from '@/components/article/introduction/faqs'
 import copyright from '@/components/article/introduction/copyright'
+import main from '@/components/view/main'
 
 
 Vue.use(Router);
@@ -71,6 +72,11 @@ export default new Router({
       path:'/article/introduction/copyright',
       name:'copyright',
       component:copyright
+    },
+    {//需跳转的页面
+      path:'//view/main',
+      name:'main',
+      component:main
     }
   ]
 })

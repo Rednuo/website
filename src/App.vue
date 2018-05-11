@@ -1,24 +1,29 @@
 <template>
   <div id="app">
     <!--<loginDiv @transferUser="getUser"></loginDiv>-->
-    <div class="login-wrap" v-show="showLogin">
-      <h3>登录</h3>
-      <p v-show="showTip">{{tip}}</p>
-      <input type="text" placeholder="请输入账号" v-model="account">
-      <input type="password" placeholder="请输入密码" v-model="password">
-      <button type="submit" class="btn" @click="login">登录</button>
-      <span v-on:click="ToResister">没有账号？马上注册</span>
+    <div class="user">
+      <div class="login-wrap" v-show="showLogin">
+        <h3>登录</h3>
+        <p v-show="showTip">{{tip}}</p>
+        <input type="text" placeholder="请输入账号" v-model="account">
+        <input type="password" placeholder="请输入密码" v-model="password">
+        <button type="submit" class="btn" @click="login">登录</button>
+        <span v-on:click="ToResister">没有账号？马上注册</span>
+      </div>
+      <div class="register-wrap" v-show="showResister">
+        <h3>注册</h3>
+        <p v-show="showTip">{{tip}}</p>
+        <input type="text" placeholder="请输入账号" v-model="newAccount">
+        <input type="password" placeholder="请输入密码" v-model="newPassword">
+        <button type="submit" class="btn" @click="register">注册</button>
+        <span v-on:click="ToLogin">已有账号？马上登录</span>
+      </div>
+      <div class="logined" v-show="showLogined"> {{account}}，欢迎你 <a href="" @click="quit">退出</a></div>
+      <div class="unlogin" v-show="showPreLogin">
+        <span v-on:click="ToLogin">登录</span>
+        <span v-on:click="ToResister">注册</span>
+      </div>
     </div>
-    <div class="register-wrap" v-show="showResister">
-      <h3>注册</h3>
-      <p v-show="showTip">{{tip}}</p>
-      <input type="text" placeholder="请输入账号" v-model="newAccount">
-      <input type="password" placeholder="请输入密码" v-model="newPassword">
-      <button type="submit" class="btn" @click="register">注册</button>
-      <span v-on:click="ToLogin">已有账号？马上登录</span>
-    </div>
-    <div class="logined" v-show="!showLogin"> {{account}}，欢迎你 <a href="" @click="quit">退出</a></div>
-    <div class="unlogin" v-show="showLogin"> <span>登录</span> <span>注册</span></div>
     <HeaderDiv :logo="logoMsg"></HeaderDiv>
     <section class="main">
       <sideDiv></sideDiv>
@@ -55,8 +60,10 @@
         password:'',
         newPassword:'',
         showTip:false,
-        showLogin:true,
+        showLogin:false,
         showResister:false,
+        showLogined:false,
+        showPreLogin:true,
         tip:''
       }
     },
@@ -76,8 +83,6 @@
           };
           this.$http.get('/api/login/getAccount',params)
             .then((res)=>{
-//              console.log(params);
-//              console.log(res.data);
               const dataAll=res.data;
               for(let i=dataAll.length-1;i>=0;i--){
                 if(this.account!=dataAll[i].account && this.password==dataAll[i].password){
@@ -94,25 +99,11 @@
                   setCookie('account',this.account,1000*60);
                   setTimeout(function () {
                     this.showLogin=false;
+                    this.showLogined=true;
+                    this.showPreLogin=false;
                   }.bind(this),1000)
                 }
               }
-//              if(res.data==-1){
-//                this.tip="该用户不存在";
-//                this.showTip=true;
-//              }else if(res.data==0){
-//                this.tip="密码输入错误";
-//                this.showTip=true;
-//              }else if(res.data=='admin'){
-//                this.$router.push('./view/main')
-//              }else{
-//                this.tip="登录成功";
-//                this.showTip=true;
-//                setCookie('account',this.account,1000*60);
-//                setTimeout(function () {
-//                  this.showLogin=false;
-//                }.bind(this),1000)
-//              }
             })
             .catch((reject)=>{
               console.log(reject)
@@ -123,19 +114,31 @@
         delCookie('account')
       },
       register(){
+        if(this.newAccount==''||this.newPassword==''){
+          alert("请输入用户名或密码")
+        }
         let params={
           account:this.newAccount,
           password:this.newPassword
         };
+        setTimeout(function () {
+          this.showLogin=true;
+          this.showLogined=false;
+          this.showPreLogin=false;
+          this.showResister=false;
+        }.bind(this),1000);
         return this.$http.post('/api/login/createAccount',params);
       },
       ToResister(){
         this.showLogin=false;
         this.showResister=true;
+        this.showPreLogin=false;
       },
       ToLogin(){
         this.showLogin=true;
         this.showResister=false;
+        this.showLogined=false;
+        this.showPreLogin=false;
       }
     }
   }
@@ -155,6 +158,12 @@
   @lightFont:#757575;
   @heightYellow:#e3c338;
   @lightYellow:#fae585;
+  .user{
+    text-align: center;
+    span{
+      cursor: pointer;
+    }
+  }
   .main{
     width: 900px;
     /*height: 750px;*/
